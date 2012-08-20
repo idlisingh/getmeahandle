@@ -35,11 +35,15 @@ function getVerb() {
 	return verb[modedRandom(verb.length)];
 };
 
+function capitalize(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function getId() {
 	if (modedRandom(2) % 2 == 0)
-		return getAdjective() + getNoun();
+		return capitalize(getAdjective()) + capitalize(getNoun());
 	else
-		return getVerb() + getAdverb();
+		return capitalize(getVerb()) + capitalize(getAdverb());
 };
 
 exports.getId = getId;
