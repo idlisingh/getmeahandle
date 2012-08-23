@@ -2,6 +2,6 @@
 
 while [ 1 == 1 ] 
 do
-	node idgenerator.js
+	node check.js
 	sleep 1;
 done
