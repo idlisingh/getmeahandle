@@ -20,19 +20,19 @@ function modedRandom(mod){
 }
 
 function getNoun(){
-	return nouns[modedRandom(nouns.length)];
+	return capitalize(nouns[modedRandom(nouns.length)]);
 };
 
 function getAdjective() {
-	return adjectives[modedRandom(adjectives.length)];
+	return capitalize(adjectives[modedRandom(adjectives.length)]);
 };
 
 function getAdverb() {
-	return adverb[modedRandom(adverb.length)];
+	return capitalize(adverb[modedRandom(adverb.length)]);
 };
 
 function getVerb() {
-	return verb[modedRandom(verb.length)];
+	return capitalize(verb[modedRandom(verb.length)]);
 };
 
 function capitalize(string) {
@@ -40,10 +40,24 @@ function capitalize(string) {
 }
 
 function getId() {
-	if (modedRandom(2) % 2 == 0)
-		return capitalize(getAdjective()) + capitalize(getNoun());
-	else
-		return capitalize(getVerb()) + capitalize(getAdverb());
+	console.log('in getId()');
+	var val = modedRandom(4) % 4;
+	switch (val) {
+		case 0: 
+			console.log('Adjective Noun: ' + val);
+			return getAdjective() + getNoun();
+		case 1:
+			console.log('Verb Adverb: ' + val);
+			return getVerb() + getAdverb();
+		case 2:
+			console.log('Verbing Noun: ' + val);
+			return getVerb() + 'ing' + getNoun();
+		case 3:
+			console.log('Adverb Verbing:' + val);
+			return getAdverb() + getVerb() + 'ing';
+		default:
+			console.log('Default: ' + val);
+	}
 };
 
 exports.getId = getId;
