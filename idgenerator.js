@@ -15,10 +15,6 @@ adjectives.splice(adjectives.length - 1, 1);
 adverb.splice(adjectives.length - 1, 1);
 verb.splice(adjectives.length - 1, 1);
 
-function modedRandom(mod){
-	return Math.floor(mod * Math.random());
-}
-
 function getNoun(){
 	return capitalize(nouns[modedRandom(nouns.length)]);
 };
@@ -35,10 +31,33 @@ function getVerb() {
 	return capitalize(verb[modedRandom(verb.length)]);
 };
 
+function getVerbIng(){
+	var verb = getVerb();
+	if (endsWith(verb, 'ee')){
+		return verb + 'ing';
+	}else if (endsWith(verb, 'e')){
+		return verb.substring(0, verb.length - 1) + 'ing';
+	}else if (endsWith(verb, 'ie')){
+		return verb.substring(0, verb.length - 2) + 'ying';
+	}else {
+		return verb + 'ing';
+	}
+};
+
+//	Helper Functions
+function modedRandom(mod){
+	return Math.floor(mod * Math.random());
+}
+
+function endsWith(str, suffix) {
+    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+}
+
 function capitalize(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+//	Main getId()
 function getId() {
 	var val = modedRandom(3) % 3;
 	var newId;
@@ -54,17 +73,19 @@ function getId() {
 			break;
 		case 2:
 			type = 'Verbing Noun: ' + val;
-			newId = getVerb() + 'ing' + getNoun();
+			newId = getVerbIng() + getNoun();
 			break;
 		case 3:
 			type = 'Adverb Verbing:' + val;
-			newId = getAdverb() + getVerb() + 'ing';
+			newId = getAdverb() + getVerbIng();
 			break;
 	}
 	console.log(type + ' -> ' + newId);
 	return newId;
 };
 
+
+//	Exports
 exports.getId = getId;
 exports.getAdjective = getAdjective;
 exports.getNoun = getNoun;
