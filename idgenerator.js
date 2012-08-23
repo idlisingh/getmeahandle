@@ -40,24 +40,29 @@ function capitalize(string) {
 }
 
 function getId() {
-	console.log('in getId()');
-	var val = modedRandom(4) % 4;
+	var val = modedRandom(3) % 3;
+	var newId;
+	var type;
 	switch (val) {
 		case 0: 
-			console.log('Adjective Noun: ' + val);
-			return getAdjective() + getNoun();
+			type = 'Adjective Noun: ' + val;
+			newId = getAdjective() + getNoun();
+			break;
 		case 1:
-			console.log('Verb Adverb: ' + val);
-			return getVerb() + getAdverb();
+			type = 'Verb Adverb: ' + val;
+			newId = getVerb() + getAdverb();
+			break;
 		case 2:
-			console.log('Verbing Noun: ' + val);
-			return getVerb() + 'ing' + getNoun();
+			type = 'Verbing Noun: ' + val;
+			newId = getVerb() + 'ing' + getNoun();
+			break;
 		case 3:
-			console.log('Adverb Verbing:' + val);
-			return getAdverb() + getVerb() + 'ing';
-		default:
-			console.log('Default: ' + val);
+			type = 'Adverb Verbing:' + val;
+			newId = getAdverb() + getVerb() + 'ing';
+			break;
 	}
+	console.log(type + ' -> ' + newId);
+	return newId;
 };
 
 exports.getId = getId;
