@@ -21,7 +21,7 @@ var server = http.createServer(function(request, response) {
 	ipAddress[reqIp] = reqIp;
 
 	response.writeHead(200, {'Content-Type': 'text/html'});
-	var rs = fs.readFileSync(__dirname + '/index.html').toString().replace('idlisingh', idgen.getId());
+	var rs = fs.readFileSync(__dirname + '/index.html').toString().replace('sample_id', idgen.getId());
 	response.write(rs);
 	response.end();
 });
