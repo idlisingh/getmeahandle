@@ -2,17 +2,39 @@
 <html lang="en">
 	<head>
 		<title>Get Me A Handle!!</title>
-		<meta charset="utf-8"  HTTP-EQUIV="Refresh" CONTENT="3">
+		<!-- meta charset="utf-8"  HTTP-EQUIV="Refresh" CONTENT="3" -->
 		<style type="text/css">
 			body {
-				background-color:white;
+				background-color:#00304F;
+				font-family:"Lucida Grande";
 			}
 			div {
-				color:black;
+				color:white;
 				vertical-align: text-center;
-				font-family:"Arial";
 			}
 		</style>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+		<script>
+			var socket = io.connect('http://getmeahandle.herokuapp.com:5000');
+
+			socket.on('connect', function(){
+			});
+
+			socket.on('newid', function(data){
+				$('#generatedId').text('@' + data);
+			});
+		
+			$(function(){
+				$('#getId').click( function() {
+					try {
+						socket.emit('reqnewid', 'dummy');
+					}catch (Err) {
+						alert('Exception ' + Err);
+					}
+				});
+			});
+		</script>
 	</head>
 
 	<body>
@@ -26,7 +48,9 @@
 		
 		<div id="generate" align="center">
 			<br><br><br><br>
-			<label id="generatedId" color="white" font="Arial" >@sample_id</label>
+			<label id="generatedId" color="white">@sample_id</label>
+			<br><br>
+			<button id="getId" onclick="getNewId()">Get Now</button>
 		</div>
 	</body>
 </html>

@@ -2,6 +2,8 @@ var http = require('http');
 var fs   = require('fs');
 var idgen = require('./idgenerator');
 var url = require('url');
+var io = require('socket.io')
+
 
 var ipAddress = {}
 
@@ -15,6 +17,9 @@ var server = http.createServer(function(request, response) {
 		for (var key in ipAddress)  allValues = allValues + "\n" + key;
 		response.end(allValues);
 		return;
+	}else if (pathname == '/id') {
+		console.log('Getting Id');
+		return response.end(idgen.getId());
 	}
 
 	var reqIp = request.connection.remoteAddress;
@@ -24,6 +29,16 @@ var server = http.createServer(function(request, response) {
 	var rs = fs.readFileSync(__dirname + '/index.html').toString().replace('sample_id', idgen.getId());
 	response.write(rs);
 	response.end();
+});
+
+
+var socket = io.listen(server);
+
+socket.sockets.on('connection', function (client) {
+	client.on('reqnewid', function(data) {
+		console.log(data);
+		client.emit('newid', idgen.getId());
+	});
 });
 
 var port = process.env.PORT || 5000;

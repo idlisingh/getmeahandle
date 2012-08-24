@@ -1,7 +1,9 @@
 {
   "name": "tweetenator",
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+    "socket.io": "9.x.x"
+  },
   "engines": {
     "node": "0.8.x",
     "npm": "1.1.x"
