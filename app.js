@@ -34,6 +34,11 @@ var server = http.createServer(function(request, response) {
 
 var socket = io.listen(server);
 
+io.configure(function () { 
+  io.set("transports", ["xhr-polling"]); 
+  io.set("polling duration", 10); 
+});
+
 socket.sockets.on('connection', function (client) {
 	client.on('reqnewid', function(data) {
 		console.log(data);
