@@ -2,7 +2,7 @@
   "name": "tweetenator",
   "version": "0.0.1",
   "dependencies": {
-    "socket.io": "9.x.x"
+    "socket.io": "0.9.10"
   },
   "engines": {
     "node": "0.8.x",
