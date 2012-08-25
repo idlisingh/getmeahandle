@@ -81,7 +81,7 @@ function getId() {
 			break;
 	}
 	console.log(type + ' -> ' + newId);
-	return newId;
+	return '@' + newId;
 };
 
 

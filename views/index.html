@@ -17,8 +17,15 @@
 		
 			function getNewId() {
 				$.get('/id', function(data) {
-					$('#generatedId').text('@' + data);
+					$('#generatedId').fadeOut('750', function() {
+						$('#generatedId').html(data);
+						$('#generatedId').fadeIn('1500');
+					});
 				});
+			}
+			
+			function findId() {
+				alert('clicked id');
 			}
 		
 		</script>
@@ -35,9 +42,9 @@
 		
 		<div id="generate" align="center">
 			<br><br><br><br>
-			<label id="generatedId" color="white">@getmeahandle</label>
-			<br><br>
-			<button id="getId" onclick="getNewId()">Get Now</button>
+			<font size="7"><label id="generatedId" color="white" size="4">getmeahandle</label></font>
+			<br><br><br><br>
+			<button id="getId" onclick="getNewId()" size="150%">Get Now</button>
 		</div>
 	</body>
 </html>
