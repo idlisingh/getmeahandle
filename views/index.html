@@ -14,6 +14,9 @@
 		</style>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 		<script>
+			
+			var isAuto;
+			
 			function getNewId() {
 				$.get('/id', function(data) {
 					$('#generatedId').fadeOut('750', function() {
@@ -22,6 +25,38 @@
 					});
 				});
 			}
+			
+			var timer;
+			function intervalFn() {
+				timer = setInterval(function() {
+					getNewId();
+				}, 2500);
+			}
+			
+			function buttonClicked() {
+				isAuto = !isAuto;
+				if (isAuto)	{
+					$('#getId').html('Auto gen ON');
+					$('#welcomeMsg').html('Relax, Auto refreshing Ids');
+					intervalFn();
+				}else {
+					$('#getId').html('Auto gen OFF');
+					$('#welcomeMsg').html('Click away to generate');
+					clearInterval(timer);
+				}
+			}
+			
+			$(document).ready(function() {
+				isAuto = true;
+				intervalFn();
+			});
+
+			$(document).click(function() {
+				if (!isAuto) {
+					getNewId();
+				}
+			});
+
 		</script>
 	</head>
 
@@ -29,16 +64,18 @@
 		<div id="about" align="right">
 			<font size="2">By <a href="http://twitter.com/idlisingh" target="_blank">@idlisingh</a> </font>
 		</div>
-		<div id="header" align="center">
-			<br><br><br><br><br>
-			<font size="9">Get Me A Handle!!</font>
-		</div>
+		<div id="mainDiv">
+			<div id="msg" align="center">
+				<br><br><br><br><br>
+				<font size="9"><label id="welcomeMsg">Relax, Auto refreshing Ids</label></font>
+			</div>
 		
-		<div id="generate" align="center">
-			<br><br><br><br><br><br><br>
-			<font size="7"><label id="generatedId" color="white" size="4">getmeahandle</label></font>
-			<br><br><br><br><br><br><br>
-			<button id="getId" width="77" onclick="getNewId()">Get Now</button>
+			<div id="generate" align="center">
+				<br><br><br><br><br><br><br>
+				<font size="7"><label id="generatedId">getmeahandle</label></font>
+				<br><br><br><br><br><br><br>
+				<button id="getId" width="77" onclick="buttonClicked()">Auto gen ON</button>
+			</div>
 		</div>
 	</body>
 </html>
