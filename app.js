@@ -36,7 +36,7 @@ var socket = io.listen(server);
 
 socket.configure('production', function () { 
   socket.set("transports", ["xhr-polling"]); 
-  socket.set("polling duration", 1); 
+  socket.set("polling duration", 0.5); 
 });
 
 socket.sockets.on('connection', function (client) {
