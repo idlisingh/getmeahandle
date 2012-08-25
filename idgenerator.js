@@ -4,16 +4,19 @@ var nounFileName = __dirname + '/data/noun.dat';
 var adjectiveFileName = __dirname + '/data/adjective.dat';
 var adverbFileName = __dirname + '/data/adverb.dat';
 var verbFileName = __dirname + '/data/verb.dat';
+var mythologyFileName = __dirname + '/data/mythology.dat';
 
 var nouns = fs.readFileSync(nounFileName, 'ascii').split('\n');
 var adjectives = fs.readFileSync(adjectiveFileName, 'ascii').split('\n');
 var adverb = fs.readFileSync(adverbFileName, 'ascii').split('\n');
 var verb = fs.readFileSync(verbFileName, 'ascii').split('\n');
+var mythology = fs.readFileSync(mythologyFileName, 'ascii').split('\n');
 
 nouns.splice(nouns.length - 1, 1);
 adjectives.splice(adjectives.length - 1, 1);
 adverb.splice(adjectives.length - 1, 1);
 verb.splice(adjectives.length - 1, 1);
+mythology.splice(mythology.length - 1, 1);
 
 function getNoun(){
 	return capitalize(nouns[modedRandom(nouns.length)]);
@@ -29,6 +32,10 @@ function getAdverb() {
 
 function getVerb() {
 	return capitalize(verb[modedRandom(verb.length)]);
+};
+
+function getMythology() {
+	return capitalize(mythology[modedRandom(mythology.length)]);
 };
 
 function getVerbIng(){
@@ -59,7 +66,7 @@ function capitalize(string) {
 
 //	Main getId()
 function getId() {
-	var val = modedRandom(3) % 3;
+	var val = modedRandom(6) % 6;
 	var newId;
 	var type;
 	switch (val) {
@@ -79,6 +86,14 @@ function getId() {
 			type = 'Adverb Verbing:' + val;
 			newId = getAdverb() + getVerbIng();
 			break;
+		case 4:
+			type = 'Verbing Mythology:' + val;
+			newId = getVerbIng() + getMythology();
+			break;
+		case 5:
+			type = 'Noun of Mythology:' + val;
+			newId = getNoun() + 'Of' + getMythology();
+			break;
 	}
 	console.log(type + ' -> ' + newId);
 	return '@' + newId;
@@ -91,3 +106,4 @@ exports.getAdjective = getAdjective;
 exports.getNoun = getNoun;
 exports.getAdverb = getAdverb;
 exports.getVerb = getVerb;
+exports.getMythology = getMythology;

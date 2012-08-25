@@ -11,7 +11,6 @@ app.configure(function() {
 });
 
 app.get('/', function(req, res) {
-	console.log('root accessed');
 	var reqIp = req.connection.remoteAddress;
 	ipAddress[reqIp] = reqIp;
 	res.writeHead(200, {'Content-Type': 'text/html'});
@@ -21,7 +20,6 @@ app.get('/', function(req, res) {
 });
 
 app.get('/id', function(req, res) {
-	console.log('Id requested');
 	res.writeHead(200, {'Content-Type': 'text/plain'});
 	res.write(idgen.getId());
 	res.end();
