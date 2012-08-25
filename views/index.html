@@ -36,11 +36,11 @@
 			function buttonClicked() {
 				isAuto = !isAuto;
 				if (isAuto)	{
-					$('#getId').html('Auto gen ON');
+					$('#getId').html('Turn Auto Refresh On');
 					$('#welcomeMsg').html('Relax, Auto refreshing Ids');
 					intervalFn();
 				}else {
-					$('#getId').html('Auto gen OFF');
+					$('#getId').html('Turn Auto Refresh Off');
 					$('#welcomeMsg').html('Click anywhere to generate');
 					clearInterval(timer);
 				}
@@ -74,7 +74,7 @@
 				<br><br><br><br><br><br><br>
 				<font size="7"><label id="generatedId">getmeahandle</label></font>
 				<br><br><br><br><br><br><br>
-				<button id="getId" width="77" onclick="buttonClicked()">Auto gen ON</button>
+				<button id="getId" width="77" onclick="buttonClicked()">Turn Auto Refresh Off</button>
 			</div>
 		</div>
 	</body>
