@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Get Me A Handle!!</title>
+		<style type="text/css">
+			body {
+				background-color:white;
+				font-family:"Lucida Grande";
+			}
+			div {
+				color:black;
+				vertical-align: text-center;
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+		<script>
+		
+			function getNewId() {
+				$.get('/id', function(data) {
+					$('#generatedId').text('@' + data);
+				});
+			}
+		
+		</script>
+	</head>
+
+	<body>
+		<div id="about" align="right">
+			<font size="2">By <a href="http://twitter.com/idlisingh" target="_blank">@idlisingh</a> </font>
+		</div>
+		<div id="header" align="center">
+			<br><br><br><br>
+			<h1>Get Me A Handle!!</h1>
+		</div>
+		
+		<div id="generate" align="center">
+			<br><br><br><br>
+			<label id="generatedId" color="white">@getmeahandle</label>
+			<br><br>
+			<button id="getId" onclick="getNewId()">Get Now</button>
+		</div>
+	</body>
+</html>
