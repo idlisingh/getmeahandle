@@ -16,45 +16,87 @@
 		<script>
 			
 			var isAuto;
+			var fadeInTime, fadeOutTime;
 			
+			//	Reduce the fade time for manual mode
+			function fastFade() {
+				fadeInTime = 250;
+				fadeOutTime = 350;
+			}
+
+			//	Increases the fade time for auto mode
+			function slowFade() {
+				fadeInTime = 750;
+				fadeOutTime = 750;
+			}
+
+			//	Update the new from server			
 			function getNewId() {
 				$.get('/id', function(data) {
-					$('#generatedId').fadeOut('750', function() {
+					$('#generatedId').fadeOut(fadeInTime, function() {
 						$('#generatedId').html(data);
-						$('#generatedId').fadeIn('1500');
+						$('#generatedId').fadeIn(fadeOutTime);
+						autoUpdateId();
 					});
 				});
 			}
 			
+			/* 
+				Schedule the next event if it IS IN AUTO mode.
+				Schedules the next update based on the length of the current handle displayed.
+				If the length of the handle high, we give the user some more time to read.
+			*/
 			var timer;
-			function intervalFn() {
-				timer = setInterval(function() {
-					getNewId();
-				}, 2800);
+			function autoUpdateId(length) {
+				if (!isAuto) return;
+				var length = $('#generatedId').text().length - 6;
+				var interval = (length >= 18) ? 3800 : 2800;
+				timer = setTimeout(getNewId, interval);
 			}
 			
+			/*
+				Switch between auto and manual mode.
+				When switching to AUTO mode
+					Update text
+					Enable slow fade
+					Schedule auto update events
+				When switching to MANUAL mode
+					Update text
+					Enable fast fade
+					Clear the scheduled interval
+			*/
 			function buttonClicked() {
 				isAuto = !isAuto;
-				if (isAuto)	{
+				if (isAuto)	{		//	Going to Auto mode
 					$('#getId').html('Turn Auto Refresh On');
 					$('#welcomeMsg').html('Relax, Auto refreshing Ids');
-					intervalFn();
-				}else {
+					buttonClickEventConsumed = false;		//	Reset the first click
+					slowFade();
+					autoUpdateId();
+				}else {					//	Going to Manual mode
 					$('#getId').html('Turn Auto Refresh Off');
 					$('#welcomeMsg').html('Click anywhere to generate');
+					fastFade();
 					clearInterval(timer);
 				}
 			}
-			
-			$(document).ready(function() {
-				isAuto = true;
-				intervalFn();
-			});
 
+			//	Used to eat up the button click event from trigging an update			
+			var buttonClickEventConsumed = false;
+			//	If in MANUAL mode and the button click event is consumed then update the id
 			$(document).click(function() {
-				if (!isAuto) {
+				if (!isAuto && buttonClickEventConsumed) {
 					getNewId();
 				}
+				if (!isAuto) { 
+					buttonClickEventConsumed = true;
+				}
+			});
+
+			$(document).ready(function() {
+				isAuto = true;
+				slowFade();
+				autoUpdateId();
 			});
 
 		</script>
