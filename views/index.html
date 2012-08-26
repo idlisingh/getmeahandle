@@ -68,13 +68,13 @@
 			function buttonClicked() {
 				isAuto = !isAuto;
 				if (isAuto)	{		//	Going to Auto mode
-					$('#getId').html('Turn Auto Refresh On');
+					$('#getId').html('Turn Auto Refresh Off');
 					$('#welcomeMsg').html('Relax, Auto refreshing Ids');
 					buttonClickEventConsumed = false;		//	Reset the first click
 					slowFade();
 					autoUpdateId();
 				}else {					//	Going to Manual mode
-					$('#getId').html('Turn Auto Refresh Off');
+					$('#getId').html('Turn Auto Refresh On');
 					$('#welcomeMsg').html('Click anywhere to generate');
 					fastFade();
 					clearInterval(timer);
@@ -94,9 +94,16 @@
 			});
 
 			$(document).ready(function() {
-				isAuto = true;
-				slowFade();
-				autoUpdateId();
+				if (navigator.appName == 'Microsoft Internet Explorer') {
+					$('#welcomeMsg').html('Seriously...don\'t be a douche. Use Firefox or Chrome');
+					$('#generatedId').html('');
+					document.getElementById('getId').style.visibility="hidden";
+					isAuto = false;
+				}else {
+					isAuto = true;
+					slowFade();
+					autoUpdateId();
+				}
 			});
 
 		</script>
