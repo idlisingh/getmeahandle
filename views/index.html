@@ -18,6 +18,9 @@
 			var isAuto;
 			var fadeInTime, fadeOutTime;
 			
+			var generatedIds = [];
+			var index = 0;
+			
 			//	Reduce the fade time for manual mode
 			function fastFade() {
 				fadeInTime = 250;
@@ -32,12 +35,20 @@
 
 			//	Update the new from server			
 			function getNewId() {
+				document.getElementById("prevId").disabled = false;
+				document.getElementById("nextId").disabled = true;
 				$.get('/id', function(data) {
-					$('#generatedId').fadeOut(fadeInTime, function() {
-						$('#generatedId').html(data);
-						$('#generatedId').fadeIn(fadeOutTime);
-						autoUpdateId();
-					});
+					generatedIds.push(data);
+					index = generatedIds.length - 1 <= 0 ? 0 : generatedIds.length - 1;
+					updateGenIdOnPage(data);
+				});
+			}
+			
+			function updateGenIdOnPage(data) {
+				$('#generatedId').fadeOut(fadeInTime, function() {
+					$('#generatedId').html(data);
+					$('#generatedId').fadeIn(fadeOutTime);
+					autoUpdateId();
 				});
 			}
 			
@@ -49,7 +60,7 @@
 			var timer;
 			function autoUpdateId(length) {
 				if (!isAuto) return;
-				var length = $('#generatedId').text().length - 6;
+				var length = $('#generatedId').text().length;
 				var interval = (length >= 18) ? 3800 : 2800;
 				timer = setTimeout(getNewId, interval);
 			}
@@ -65,39 +76,62 @@
 					Enable fast fade
 					Clear the scheduled interval
 			*/
-			function buttonClicked() {
+
+			function gotoAutoMode() {
+				index = 0;
+				slowFade();
+				autoUpdateId();
+				$('#toggleModeId').html('Auto');
+				document.getElementById("prevId").style.visibility = "hidden";
+				document.getElementById("nextId").style.visibility = "hidden";
+				document.getElementById("getId").style.visibility = "hidden";
+			}
+			
+			function gotoManualMode() {
+				fastFade();
+				clearInterval(timer);
+				$('#toggleModeId').html('Manual');
+				document.getElementById("prevId").style.visibility = "visible";
+				document.getElementById("nextId").style.visibility = "visible";
+				document.getElementById("nextId").disabled = true;
+				document.getElementById("getId").style.visibility = "visible";
+			}
+			
+			function toggleMode() {
 				isAuto = !isAuto;
 				if (isAuto)	{		//	Going to Auto mode
-					$('#getId').html('Turn Auto Refresh Off');
-					$('#welcomeMsg').html('Relax, Auto refreshing Ids');
-					buttonClickEventConsumed = false;		//	Reset the first click
-					slowFade();
-					autoUpdateId();
+					gotoAutoMode();
 				}else {					//	Going to Manual mode
-					$('#getId').html('Turn Auto Refresh On');
-					$('#welcomeMsg').html('Click anywhere to generate');
-					fastFade();
-					clearInterval(timer);
+					gotoManualMode();
 				}
 			}
 
-			//	Used to eat up the button click event from trigging an update			
-			var buttonClickEventConsumed = false;
-			//	If in MANUAL mode and the button click event is consumed then update the id
-			$(document).click(function() {
-				if (!isAuto && buttonClickEventConsumed) {
-					getNewId();
-				}
-				if (!isAuto) { 
-					buttonClickEventConsumed = true;
-				}
-			});
-
 			$(document).ready(function() {
 				isAuto = true;
+				generatedIds.push($('#generatedId').text());
 				slowFade();
 				autoUpdateId();
 			});
+
+			function prevId() {
+				var val = (index == 0) ? generatedIds[index] : generatedIds[--index];
+				updateGenIdOnPage(val);
+				if (index == 0) {
+					index = 0;
+					document.getElementById("prevId").disabled = true;
+				}
+				document.getElementById("nextId").disabled = false;
+			}
+
+			function nextId() {
+				var val = (index == generatedIds.length - 1) ? generatedIds[index] : generatedIds[++index];
+				updateGenIdOnPage(val);
+				if (index == generatedIds.length - 1) {
+					index = generatedIds.length - 1;
+					document.getElementById("nextId").disabled = true;
+				}
+				document.getElementById("prevId").disabled = false;
+			}
 
 		</script>
 	</head>
@@ -109,14 +143,18 @@
 		<div id="mainDiv">
 			<div id="msg" align="center">
 				<br><br><br><br><br>
-				<font size="9"><label id="welcomeMsg">Relax, Auto refreshing Ids</label></font>
+				<font size="9">
+					<button id="toggleModeId" onclick="toggleMode()" style="width:200px;height:90px; font-size:90%">Auto</button>
+				</font>
 			</div>
 		
 			<div id="generate" align="center">
 				<br><br><br><br><br><br><br>
 				<font size="7"><label id="generatedId">getmeahandle</label></font>
 				<br><br><br><br><br><br><br>
-				<button id="getId" width="77" onclick="buttonClicked()">Turn Auto Refresh Off</button>
+				<button id="prevId" onclick="prevId()" style="visibility:hidden" style="width:200px;height:100px; font-size:90%">Prev Generated</button>
+				<button id="getId"  onclick="getNewId()" style="visibility:hidden" style="width:200px;height:100px font-size:90%">Get me a New Handle</button>
+				<button id="nextId" onclick="nextId()" style="visibility:hidden" style="width:200px;height:100px font-size:90%">Next Generated</button>
 			</div>
 		</div>
 	</body>
