@@ -94,16 +94,9 @@
 			});
 
 			$(document).ready(function() {
-				if (navigator.appName == 'Microsoft Internet Explorer') {
-					$('#welcomeMsg').html('Seriously...don\'t be a douche. Use Firefox or Chrome');
-					$('#generatedId').html('');
-					document.getElementById('getId').style.visibility="hidden";
-					isAuto = false;
-				}else {
-					isAuto = true;
-					slowFade();
-					autoUpdateId();
-				}
+				isAuto = true;
+				slowFade();
+				autoUpdateId();
 			});
 
 		</script>
