@@ -1,161 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<title>Get Me A Handle!!</title>
-		<style type="text/css">
-			body {
-				background-color:white;
-				font-family:"Lucida Grande";
-			}
-			div {
-				color:black;
-				vertical-align: text-center;
-			}
-		</style>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-		<script>
-			
-			var isAuto;
-			var fadeInTime, fadeOutTime;
-			
-			var generatedIds = [];
-			var index = 0;
-			
-			//	Reduce the fade time for manual mode
-			function fastFade() {
-				fadeInTime = 250;
-				fadeOutTime = 350;
-			}
+  <head>
+    <meta charset="utf-8">
+    <title>Get me a Handle!!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
 
-			//	Increases the fade time for auto mode
-			function slowFade() {
-				fadeInTime = 750;
-				fadeOutTime = 750;
-			}
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script>
+      var isAuto;
+      var fadeInTime, fadeOutTime;
+      var generatedIds = [];
+      var index = 0;
+      
+      function fastFade() {fadeInTime = 250;fadeOutTime = 350;}
+      function slowFade() {fadeInTime = 750;fadeOutTime = 750;}
 
-			//	Update the new from server			
-			function getNewId() {
-				document.getElementById("prevId").disabled = false;
-				document.getElementById("nextId").disabled = true;
-				$.get('/id', function(data) {
-					generatedIds.push(data);
-					index = generatedIds.length - 1 <= 0 ? 0 : generatedIds.length - 1;
-					updateGenIdOnPage(data);
-				});
-			}
-			
-			function updateGenIdOnPage(data) {
-				$('#generatedId').fadeOut(fadeInTime, function() {
-					$('#generatedId').html(data);
-					$('#generatedId').fadeIn(fadeOutTime);
-					autoUpdateId();
-				});
-			}
-			
-			/* 
-				Schedule the next event if it IS IN AUTO mode.
-				Schedules the next update based on the length of the current handle displayed.
-				If the length of the handle high, we give the user some more time to read.
-			*/
-			var timer;
-			function autoUpdateId(length) {
-				if (!isAuto) return;
-				var length = $('#generatedId').text().length;
-				var interval = (length >= 18) ? 3800 : 2800;
-				timer = setTimeout(getNewId, interval);
-			}
-			
-			/*
-				Switch between auto and manual mode.
-				When switching to AUTO mode
-					Update text
-					Enable slow fade
-					Schedule auto update events
-				When switching to MANUAL mode
-					Update text
-					Enable fast fade
-					Clear the scheduled interval
-			*/
+      function getNewId() {
+        document.getElementById("prevId").disabled = false;
+        document.getElementById("nextId").disabled = true;
+        $.get('/id', function(data) {
+          generatedIds.push(data);
+          index = generatedIds.length - 1 <= 0 ? 0 : generatedIds.length - 1;
+          updateGenIdOnPage(data);
+        });
+      }
+      
+      function updateGenIdOnPage(data) {
+        $('#generatedId').fadeOut(fadeInTime, function() {
+          $('#generatedId').html(data);
+          $('#generatedId').fadeIn(fadeOutTime);
+          autoUpdateId();
+        });
+      }
+      
+      /* 
+        Schedule the next event if it IS IN AUTO mode.
+        Schedules the next update based on the length of the current handle displayed.
+        If the length of the handle high, we give the user some more time to read.
+      */
+      var timer;
+      function autoUpdateId(length) {
+        if (!isAuto) return;
+        var length = $('#generatedId').text().length;
+        var interval = (length >= 18) ? 3800 : 2800;
+        timer = setTimeout(getNewId, interval);
+      }
+      
+      function gotoAutoMode() {
+        index = 0;
+        slowFade();
+        autoUpdateId();
+        $('#toggleModeId').html('Auto');
+        document.getElementById("prevId").style.visibility = "hidden";
+        document.getElementById("nextId").style.visibility = "hidden";
+        document.getElementById("getId").style.visibility = "hidden";
+      }
+      
+      function gotoManualMode() {
+        fastFade();
+        clearInterval(timer);
+        $('#toggleModeId').html('Manual');
+        document.getElementById("prevId").style.visibility = "visible";
+        document.getElementById("nextId").style.visibility = "visible";
+        document.getElementById("getId").style.visibility = "visible";
+        document.getElementById("nextId").disabled = true;
+      }
+      
+      function toggleMode() {
+        isAuto = !isAuto;
+        if (isAuto) {   //  Going to Auto mode
+          gotoAutoMode();
+        }else {         //  Going to Manual mode
+          gotoManualMode();
+        }
+      }
 
-			function gotoAutoMode() {
-				index = 0;
-				slowFade();
-				autoUpdateId();
-				$('#toggleModeId').html('Auto');
-				document.getElementById("prevId").style.visibility = "hidden";
-				document.getElementById("nextId").style.visibility = "hidden";
-				document.getElementById("getId").style.visibility = "hidden";
-			}
-			
-			function gotoManualMode() {
-				fastFade();
-				clearInterval(timer);
-				$('#toggleModeId').html('Manual');
-				document.getElementById("prevId").style.visibility = "visible";
-				document.getElementById("nextId").style.visibility = "visible";
-				document.getElementById("nextId").disabled = true;
-				document.getElementById("getId").style.visibility = "visible";
-			}
-			
-			function toggleMode() {
-				isAuto = !isAuto;
-				if (isAuto)	{		//	Going to Auto mode
-					gotoAutoMode();
-				}else {					//	Going to Manual mode
-					gotoManualMode();
-				}
-			}
+      $(document).ready(function() {
+        isAuto = true;
+        generatedIds.push($('#generatedId').text());
+        slowFade();
+        autoUpdateId();
+      });
 
-			$(document).ready(function() {
-				isAuto = true;
-				generatedIds.push($('#generatedId').text());
-				slowFade();
-				autoUpdateId();
-			});
+      function prevId() {
+        var val = (index == 0) ? generatedIds[index] : generatedIds[--index];
+        updateGenIdOnPage(val);
+        if (index == 0) {
+          index = 0;
+          document.getElementById("prevId").disabled = true;
+        }
+        document.getElementById("nextId").disabled = false;
+      }
 
-			function prevId() {
-				var val = (index == 0) ? generatedIds[index] : generatedIds[--index];
-				updateGenIdOnPage(val);
-				if (index == 0) {
-					index = 0;
-					document.getElementById("prevId").disabled = true;
-				}
-				document.getElementById("nextId").disabled = false;
-			}
+      function nextId() {
+        var val = (index == generatedIds.length - 1) ? generatedIds[index] : generatedIds[++index];
+        updateGenIdOnPage(val);
+        if (index == generatedIds.length - 1) {
+          index = generatedIds.length - 1;
+          document.getElementById("nextId").disabled = true;
+        }
+        document.getElementById("prevId").disabled = false;
+      }
 
-			function nextId() {
-				var val = (index == generatedIds.length - 1) ? generatedIds[index] : generatedIds[++index];
-				updateGenIdOnPage(val);
-				if (index == generatedIds.length - 1) {
-					index = generatedIds.length - 1;
-					document.getElementById("nextId").disabled = true;
-				}
-				document.getElementById("prevId").disabled = false;
-			}
+    </script>
+  </head>
 
-		</script>
-	</head>
+  <body>
 
-	<body>
-		<div id="about" align="right">
-			<font size="2">By <a href="http://twitter.com/idlisingh" target="_blank">@idlisingh</a> </font>
-		</div>
-		<div id="mainDiv">
-			<div id="msg" align="center">
-				<br><br><br><br><br>
-				<font size="9">
-					<button id="toggleModeId" onclick="toggleMode()" style="width:200px;height:90px; font-size:90%">Auto</button>
-				</font>
-			</div>
-		
-			<div id="generate" align="center">
-				<br><br><br><br><br><br><br>
-				<font size="7"><label id="generatedId">getmeahandle</label></font>
-				<br><br><br><br><br><br><br>
-				<button id="prevId" onclick="prevId()" style="visibility:hidden" style="width:200px;height:100px; font-size:90%">Prev Generated</button>
-				<button id="getId"  onclick="getNewId()" style="visibility:hidden" style="width:200px;height:100px font-size:90%">Get me a New Handle</button>
-				<button id="nextId" onclick="nextId()" style="visibility:hidden" style="width:200px;height:100px font-size:90%">Next Generated</button>
-			</div>
-		</div>
-	</body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <label class="brand">Get me a Handle!!</label>
+          <div class="nav-collapse collapse">
+          	<ul class="nav pull-right">
+              <li><a href="http://twitter.com/idlisingh" target="_blank">@IdliSingh</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="hero-unit pagination-centered">
+        <a id="toggleModeId" class="btn btn-primary btn-large" onclick="toggleMode()">Auto Mode</a>
+        <div class="row spacer-25">
+          <div class="span4"> </div>
+        </div>
+        <h1 id="generatedId" class="spacer-50" id="generatedId">getmeahandle</h1>
+      </div>
+        
+      <div class="row spacer-100">
+        <div class="span4"> </div>
+        <div class="span4"> </div>
+        <div class="span4"> </div>
+      </div>
+
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="span4 pagination-centered">
+        	<button id="prevId" class="btn btn-primary btn-large invisible" onclick="prevId()">&laquo; Prev @</button>
+        </div>
+        <div class="span4 pagination-centered">
+          <button id="getId" class="btn btn-primary btn-large invisible" onclick="getNewId()">New @ </button>
+       </div>
+        <div class="span4 pagination-centered">
+        	<button id="nextId" class="btn btn-large btn-primary invisible" onclick="nextId()">Next @ &raquo;</button>
+        </div>
+      </div>
+
+    </div> <!-- /container -->
+
+  </body>
 </html>

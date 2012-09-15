@@ -19,6 +19,14 @@ app.get('/', function(req, res) {
 	res.end();
 });
 
+app.get('/css/bootstrap.css', function(req, res) {
+	console.log('/bootstrap requested');
+	res.writeHead(200, {'Content-Type': 'text/css'});
+	var rs = fs.readFileSync(__dirname + '/css/bootstrap.css').toString();
+	res.write(rs);
+	res.end();
+});
+
 app.get('/id', function(req, res) {
 	res.writeHead(200, {'Content-Type': 'text/plain'});
 	res.write(idgen.getId());
