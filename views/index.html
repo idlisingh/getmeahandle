@@ -28,15 +28,16 @@
         document.getElementById("prevId").disabled = false;
         document.getElementById("nextId").disabled = true;
         $.get('/id', function(data) {
-          generatedIds.push(data);
-          index = generatedIds.length - 1 <= 0 ? 0 : generatedIds.length - 1;
-          updateGenIdOnPage(data);
+            var idObj = JSON.parse(data);
+            generatedIds.push(idObj);
+            index = generatedIds.length - 1 <= 0 ? 0 : generatedIds.length - 1;
+            updateGenIdOnPage(idObj);
         });
       }
       
-      function updateGenIdOnPage(data) {
+      function updateGenIdOnPage(idObj) {
         $('#generatedId').fadeOut(fadeInTime, function() {
-          $('#generatedId').html(data);
+          $('#generatedId').html(idObj.id + ' -> ' + idObj.isAvailable);
           $('#generatedId').fadeIn(fadeOutTime);
           autoUpdateId();
         });
@@ -51,7 +52,7 @@
       function autoUpdateId(length) {
         if (!isAuto) return;
         var length = $('#generatedId').text().length;
-        var interval = (length >= 18) ? 3800 : 2800;
+        var interval = (length >= 50) ? 3800 : 2800;
         timer = setTimeout(getNewId, interval);
       }
       

@@ -2,6 +2,14 @@ var express = require('express');
 var fs   = require('fs');
 var idgen = require('./idgenerator');
 var url = require('url');
+var twitter = require('ntwitter');
+
+var twit = new twitter({
+  consumer_key: process.env.CONSUMER_KEY,
+  consumer_secret: process.env.CONSUMER_SECRET,
+  access_token_key: process.env.ACCESS_TOKEN_KEY,
+  access_token_secret: process.env.ACCESS_TOKEN_SECRET
+});
 
 var ipAddress = {}
 
@@ -28,9 +36,16 @@ app.get('/css/bootstrap.css', function(req, res) {
 });
 
 app.get('/id', function(req, res) {
-	res.writeHead(200, {'Content-Type': 'text/plain'});
-	res.write(idgen.getId());
-	res.end();
+	var generatedId = idgen.getId();
+	var time = new Date().getTime();
+	twit.get('/users/show.json', {screen_name: generatedId}, function(data) {
+		console.log('Time taken: ' + (new Date().getTime() - time));
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		var yesNo = (data == null) ? 'No' : 'Yes';
+		var retValue = {id: generatedId, isAvailable: yesNo};
+		res.write(JSON.stringify(retValue));
+		res.end();
+	});
 });
 
 app.get('/ipaddress', function(req, res) {
