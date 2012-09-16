@@ -22,15 +22,21 @@ app.get('/', function(req, res) {
 	var reqIp = req.connection.remoteAddress;
 	ipAddress[reqIp] = reqIp;
 	res.writeHead(200, {'Content-Type': 'text/html'});
-	var rs = fs.readFileSync(__dirname + '/views/index.html').toString().replace('getmeahandle', idgen.getId());
+	var rs = fs.readFileSync(__dirname + '/public/views/index.html').toString().replace('getmeahandle', idgen.getId());
 	res.write(rs);
 	res.end();
 });
 
-app.get('/css/bootstrap.css', function(req, res) {
-	console.log('/bootstrap requested');
+app.get('/public/css/bootstrap.css', function(req, res) {
 	res.writeHead(200, {'Content-Type': 'text/css'});
-	var rs = fs.readFileSync(__dirname + '/css/bootstrap.css').toString();
+	var rs = fs.readFileSync(__dirname + '/public/css/bootstrap.css').toString();
+	res.write(rs);
+	res.end();
+});
+
+app.get('/public/js/main.js', function(req, res) {
+	res.writeHead(200, {'Content-Type': 'text/javascript'});
+	var rs = fs.readFileSync(__dirname + '/public/js/main.js').toString();
 	res.write(rs);
 	res.end();
 });
