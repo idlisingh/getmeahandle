@@ -16,6 +16,13 @@ var ipAddress = {}
 var app = express();
 
 app.configure(function() {
+	app.use(express.methodOverride());
+	app.use(express.bodyParser());
+	app.use("/public", express.static(__dirname + '/public'));
+	app.use(express.errorHandler({
+		dumpExceptions: true,
+		showStack: true
+	}));
 });
 
 app.get('/', function(req, res) {
@@ -26,35 +33,6 @@ app.get('/', function(req, res) {
 	res.write(rs);
 	res.end();
 });
-
-app.get('/public/css/bootstrap.css', function(req, res) {
-	res.writeHead(200, {'Content-Type': 'text/css'});
-	var rs = fs.readFileSync(__dirname + '/public/css/bootstrap.css').toString();
-	res.write(rs);
-	res.end();
-});
-
-app.get('/public/js/main.js', function(req, res) {
-	res.writeHead(200, {'Content-Type': 'text/javascript'});
-	var rs = fs.readFileSync(__dirname + '/public/js/main.js').toString();
-	res.write(rs);
-	res.end();
-});
-
-app.get('/public/img/yes.png', function(req, res) {
-	res.writeHead(200, {'Content-Type': 'image/png'});
-	var rs = fs.readFileSync(__dirname + '/public/img/yes.png');
-	res.write(rs);
-	res.end();
-});
-
-app.get('/public/img/no.png', function(req, res) {
-	res.writeHead(200, {'Content-Type': 'image/png'});
-	var rs = fs.readFileSync(__dirname + '/public/img/no.png');
-	res.write(rs);
-	res.end();
-});
-
 
 app.get('/id', function(req, res) {
 	var generatedId = idgen.getId();
