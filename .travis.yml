@@ -6,5 +6,5 @@ notifications:
   email:
     recipients:
       - idlisingh@outlook.com
-    on_success: always
     on_failure: always
+scipt: "nodeunit test/*.js"
