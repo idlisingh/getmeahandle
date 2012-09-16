@@ -73,15 +73,15 @@ function getIdWithIdx(val) {
 			newId = getVerbing() + nouns.generateRandom();
 			break;
 		case 3:
-			type = 'Adverb Verbing:' + val;
+			type = 'Adverb Verbing: ' + val;
 			newId = adverbs.generateRandom() + getVerbing();
 			break;
 		case 4:
-			type = 'Verbing Mythology:' + val;
+			type = 'Verbing Mythology: ' + val;
 			newId = getVerbing() + mythology.generateRandom();
 			break;
 		case 5:
-			type = 'Noun of Mythology:' + val;
+			type = 'Noun of Mythology: ' + val;
 			newId = nouns.generateRandom() + 'Of' + mythology.generateRandom();
 			break;
 		default:
@@ -102,3 +102,4 @@ exports.getVerbs = function() { return verbs; }
 exports.getAdjectives = function() { return adjectives; }
 exports.getAdverbs = function() { return adverbs; }
 exports.getMythology = function() { return mythology; }
+exports.getVerbingInternal = getVerbingInternal;
