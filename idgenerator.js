@@ -103,3 +103,4 @@ exports.getAdjectives = function() { return adjectives; }
 exports.getAdverbs = function() { return adverbs; }
 exports.getMythology = function() { return mythology; }
 exports.getVerbingInternal = getVerbingInternal;
+exports.modedRandom = modedRandom;

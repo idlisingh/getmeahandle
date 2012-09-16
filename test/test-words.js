@@ -41,13 +41,23 @@ exports['check idgen not null or no space'] = function (test) {
 	test.done();
 }
 
-exports['check if all the ing form for the verb generates correctly'] = function (test) {
+exports['getVerbing -> check if all the ing form for the verb generates correctly'] = function (test) {
 	verbs = idgen.getVerbs();
 	for(i = 0; i < verbs.length; i++) {
 		var verb = verbs[i];
 		var verbing = idgen.getVerbingInternal(verb);
 		test.ok(verbing, 'Could not figure the ing form for ' + verb);
 		test.notEqual(verbing.indexOf('ing'), -1, 'Verb ' + verb + ' should have ended with ing but was: ' + verbing);
+	}
+	test.done();
+}
+
+exports['modedRandom -> check moded value is in the range'] = function(test) {
+	for(i = 1; i < 100; i++) {
+		for(times = 0; times < 1000; times++) {
+			var val = idgen.modedRandom(i);
+			test.ok(val >= 0 && val < i, 'Value should have been between 0 and ' + i + ' but was ' + val);
+		}
 	}
 	test.done();
 }
