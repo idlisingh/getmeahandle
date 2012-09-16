@@ -1,5 +1,13 @@
 var fs = require('fs');
 
+String.prototype.capitalize=function() {
+	return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+Array.prototype.generateRandom=function() {
+	return this[modedRandom(this.length)].capitalize();
+}
+
 var nounFileName = __dirname + '/data/noun.dat';
 var adjectiveFileName = __dirname + '/data/adjective.dat';
 var adverbFileName = __dirname + '/data/adverb.dat';
@@ -8,46 +16,29 @@ var mythologyFileName = __dirname + '/data/mythology.dat';
 
 var nouns = fs.readFileSync(nounFileName, 'ascii').split('\n');
 var adjectives = fs.readFileSync(adjectiveFileName, 'ascii').split('\n');
-var adverb = fs.readFileSync(adverbFileName, 'ascii').split('\n');
-var verb = fs.readFileSync(verbFileName, 'ascii').split('\n');
+var adverbs = fs.readFileSync(adverbFileName, 'ascii').split('\n');
+var verbs = fs.readFileSync(verbFileName, 'ascii').split('\n');
 var mythology = fs.readFileSync(mythologyFileName, 'ascii').split('\n');
 
 nouns.splice(nouns.length - 1, 1);
 adjectives.splice(adjectives.length - 1, 1);
-adverb.splice(adjectives.length - 1, 1);
-verb.splice(adjectives.length - 1, 1);
+adverbs.splice(adverbs.length - 1, 1);
+verbs.splice(verbs.length - 1, 1);
 mythology.splice(mythology.length - 1, 1);
 
-function getNoun(){
-	return capitalize(nouns[modedRandom(nouns.length)]);
-};
+function getVerbing() {
+	return getVerbingInternal(verbs.generateRandom());
+}
 
-function getAdjective() {
-	return capitalize(adjectives[modedRandom(adjectives.length)]);
-};
-
-function getAdverb() {
-	return capitalize(adverb[modedRandom(adverb.length)]);
-};
-
-function getVerb() {
-	return capitalize(verb[modedRandom(verb.length)]);
-};
-
-function getMythology() {
-	return capitalize(mythology[modedRandom(mythology.length)]);
-};
-
-function getVerbIng(){
-	var verb = getVerb();
-	if (endsWith(verb, 'ee')){
-		return verb + 'ing';
-	}else if (endsWith(verb, 'e')){
-		return verb.substring(0, verb.length - 1) + 'ing';
-	}else if (endsWith(verb, 'ie')){
-		return verb.substring(0, verb.length - 2) + 'ying';
+function getVerbingInternal(verbVar){
+	if (endsWith(verbVar, 'ee')){
+		return verbVar + 'ing';
+	}else if (endsWith(verbVar, 'e')){
+		return verbVar.substring(0, verbVar.length - 1) + 'ing';
+	}else if (endsWith(verbVar, 'ie')){
+		return verbVar.substring(0, verbVar.length - 2) + 'ying';
 	}else {
-		return verb + 'ing';
+		return verbVar + 'ing';
 	}
 };
 
@@ -60,50 +51,54 @@ function endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 }
 
-function capitalize(string) {
-	return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 //	Main getId()
 function getId() {
-	var val = modedRandom(6) % 6;
+	return getIdWithIdx(modedRandom(6) % 6);
+}
+
+function getIdWithIdx(val) {
 	var newId;
 	var type;
 	switch (val) {
 		case 0: 
 			type = 'Adjective Noun: ' + val;
-			newId = getAdjective() + getNoun();
+			newId = adjectives.generateRandom() + nouns.generateRandom();
 			break;
 		case 1:
 			type = 'Verb Adverb: ' + val;
-			newId = getVerb() + getAdverb();
+			newId = verbs.generateRandom() + adverbs.generateRandom();
 			break;
 		case 2:
 			type = 'Verbing Noun: ' + val;
-			newId = getVerbIng() + getNoun();
+			newId = getVerbing() + nouns.generateRandom();
 			break;
 		case 3:
 			type = 'Adverb Verbing:' + val;
-			newId = getAdverb() + getVerbIng();
+			newId = adverbs.generateRandom() + getVerbing();
 			break;
 		case 4:
 			type = 'Verbing Mythology:' + val;
-			newId = getVerbIng() + getMythology();
+			newId = getVerbing() + mythology.generateRandom();
 			break;
 		case 5:
 			type = 'Noun of Mythology:' + val;
-			newId = getNoun() + 'Of' + getMythology();
+			newId = nouns.generateRandom() + 'Of' + mythology.generateRandom();
 			break;
+		default:
+			type = 'Unknonwn';
+			throw new Error('Unexpected value: ' + val);
 	}
 	console.log(type + ' -> ' + newId);
 	return '@' + newId;
 };
 
-
 //	Exports
 exports.getId = getId;
-exports.getAdjective = getAdjective;
-exports.getNoun = getNoun;
-exports.getAdverb = getAdverb;
-exports.getVerb = getVerb;
-exports.getMythology = getMythology;
+exports.getIdWithIdx = getIdWithIdx;
+
+//	For Tests
+exports.getNouns = function() { return nouns; }
+exports.getVerbs = function() { return verbs; }
+exports.getAdjectives = function() { return adjectives; }
+exports.getAdverbs = function() { return adverbs; }
+exports.getMythology = function() { return mythology; }
