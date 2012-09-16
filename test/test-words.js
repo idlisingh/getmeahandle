@@ -13,9 +13,12 @@ exports['getIdWithIdx'] = function (test) {
 
 exports['check idgen not null or no space'] = function (test) {
 	function checkWords(test, words, type){
+		var i = 0;
 		for(i = 0; i < words.length; i++) {
-			test.ok(words[i], type + ' not ok for: ' + words[i] + ' with index ' + i);
+			test.ok(words[i], type + ' had unexpected value: ' + words[i] + ' with index ' + i);
+			test.equals(words[i].indexOf(' '), -1, type + ' had space in word: ' + words[i] + ' with index ' + i);
 		}
+		test.equals(i, words.length, 'Count did not match for: ' + type + ' ' + i + ' ' + words.length);
 	}
 	checkWords(test, idgen.getNouns(), 'Nouns');
 	checkWords(test, idgen.getVerbs(), 'Verbs');
