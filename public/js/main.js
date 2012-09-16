@@ -16,10 +16,15 @@ function getNewId() {
       updateGenIdOnPage(idObj);
   });
 }
-
+var i = 0;
 function updateGenIdOnPage(idObj) {
+  $('#imgId').fadeOut(fadeInTime, function() {
+      var imgToUse = 'public/img/' + ((idObj.isAvailable == 'Yes') ? 'yes.png' : 'no.png');
+      $('#imgId').attr('src', imgToUse);
+      $('#imgId').fadeIn(fadeOutTime);
+    });
   $('#generatedId').fadeOut(fadeInTime, function() {
-    $('#generatedId').html(idObj.id + ' -> ' + idObj.isAvailable);
+    $('#generatedId').html(idObj.id);
     $('#generatedId').fadeIn(fadeOutTime);
     autoUpdateId();
   });

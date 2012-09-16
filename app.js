@@ -41,6 +41,21 @@ app.get('/public/js/main.js', function(req, res) {
 	res.end();
 });
 
+app.get('/public/img/yes.png', function(req, res) {
+	res.writeHead(200, {'Content-Type': 'image/png'});
+	var rs = fs.readFileSync(__dirname + '/public/img/yes.png');
+	res.write(rs);
+	res.end();
+});
+
+app.get('/public/img/no.png', function(req, res) {
+	res.writeHead(200, {'Content-Type': 'image/png'});
+	var rs = fs.readFileSync(__dirname + '/public/img/no.png');
+	res.write(rs);
+	res.end();
+});
+
+
 app.get('/id', function(req, res) {
 	var generatedId = idgen.getId();
 	var time = new Date().getTime();
