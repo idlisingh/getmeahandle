@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Get me a Handle!!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+
+    <!-- Le styles -->
+    <link href="public/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script src="public/js/main.js"></script>
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <label class="brand">Get me a Handle!!</label>
+          <div class="nav-collapse collapse">
+          	<ul class="nav pull-right">
+              <li><a href="http://twitter.com/idlisingh" target="_blank">@IdliSingh</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div class="hero-unit pagination-centered">
+        <a id="toggleModeId" class="btn btn-primary btn-large" onclick="toggleMode()">Auto Mode</a>
+        <div class="row spacer-25">
+          <div class="span4"> </div>
+        </div>
+        <h1 id="generatedId" class="spacer-50" id="generatedId">getmeahandle</h1>
+      </div>
+        
+      <div class="row spacer-100">
+        <div class="span4"> </div>
+        <div class="span4"> </div>
+        <div class="span4"> </div>
+      </div>
+
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="span4 pagination-centered">
+        	<button id="prevId" class="btn btn-primary btn-large invisible" onclick="prevId()">&laquo; Prev @</button>
+        </div>
+        <div class="span4 pagination-centered">
+          <button id="getId" class="btn btn-primary btn-large invisible" onclick="getNewId()">New @ </button>
+       </div>
+        <div class="span4 pagination-centered">
+        	<button id="nextId" class="btn btn-large btn-primary invisible" onclick="nextId()">Next @ &raquo;</button>
+        </div>
+      </div>
+
+    </div> <!-- /container -->
+
+  </body>
+</html>
