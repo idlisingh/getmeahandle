@@ -1,10 +1,8 @@
 language: node_js
 node_js:
   - 0.8
-  - 0.6
 notifications:
   email:
     recipients:
       - idlisingh@outlook.com
     on_failure: always
-scipt: "nodeunit test/*.js"
