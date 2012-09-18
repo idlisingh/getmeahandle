@@ -27,10 +27,10 @@ verbs.splice(verbs.length - 1, 1);
 mythology.splice(mythology.length - 1, 1);
 
 function getVerbing() {
-	return getVerbingInternal(verbs.generateRandom());
+	return getIngFormForVerb(verbs.generateRandom());
 }
 
-function getVerbingInternal(verbVar){
+function getIngFormForVerb(verbVar){
 	if (endsWith(verbVar, 'ee')){
 		return verbVar + 'ing';
 	}else if (endsWith(verbVar, 'e')){
@@ -102,5 +102,5 @@ exports.getVerbs = function() { return verbs; }
 exports.getAdjectives = function() { return adjectives; }
 exports.getAdverbs = function() { return adverbs; }
 exports.getMythology = function() { return mythology; }
-exports.getVerbingInternal = getVerbingInternal;
+exports.getIngFormForVerb = getIngFormForVerb;
 exports.modedRandom = modedRandom;

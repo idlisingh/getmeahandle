@@ -51,7 +51,7 @@ exports['getVerbing -> check if all the ing form for the verb generates correctl
 	verbs = idgen.getVerbs();
 	for(i = 0; i < verbs.length; i++) {
 		var verb = verbs[i];
-		var verbing = idgen.getVerbingInternal(verb);
+		var verbing = idgen.getIngFormForVerb(verb);
 		should.exist(verbing, 'Could not figure the ing form for ' + verb);
 		(verbing.indexOf('ing')).should.not.equal(-1, 'Verb ' + verb + ' should have ended with ing but was: ' + verbing);
 	}
