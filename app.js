@@ -29,7 +29,7 @@ app.get('/', function(req, res) {
 	var reqIp = req.connection.remoteAddress;
 	ipAddress[reqIp] = reqIp;
 	res.writeHead(200, {'Content-Type': 'text/html'});
-	var rs = fs.readFileSync(__dirname + '/public/views/index.html').toString().replace('getmeahandle', idgen.getId());
+	var rs = fs.readFileSync(__dirname + '/public/views/index.html').toString();
 	res.write(rs);
 	res.end();
 });
