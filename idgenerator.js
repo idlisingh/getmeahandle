@@ -61,7 +61,7 @@ function getEnglishId() {
 }
 
 function getMythologyId() {
-	return getIdWithIdx(modedRandom(1) + 4);
+	return getIdWithIdx(modedRandom(2) + 4);
 }
 
 function getIdWithIdx(val) {
