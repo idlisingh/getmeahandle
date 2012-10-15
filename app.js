@@ -34,8 +34,9 @@ app.get('/', function(req, res) {
 	res.end();
 });
 
-app.get('/id', function(req, res) {
-	var generatedId = idgen.getId();
+app.post('/id', function(req, res) {
+	var methodToCall = req.body.methodToCall;
+	var generatedId = eval('idgen.' + methodToCall + '()');
 	var time = new Date().getTime();
 	twit.get('/users/show.json', {screen_name: generatedId}, function(data) {
 		console.log('Time taken: ' + (new Date().getTime() - time));

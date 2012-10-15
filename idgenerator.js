@@ -53,7 +53,15 @@ function endsWith(str, suffix) {
 
 //	Main getId()
 function getId() {
-	return getIdWithIdx(modedRandom(6) % 6);
+	return getIdWithIdx(modedRandom(6));
+}
+
+function getEnglishId() {
+	return getIdWithIdx(modedRandom(4));
+}
+
+function getMythologyId() {
+	return getIdWithIdx(modedRandom(1) + 4);
 }
 
 function getIdWithIdx(val) {
@@ -104,3 +112,6 @@ exports.getAdverbs = function() { return adverbs; }
 exports.getMythology = function() { return mythology; }
 exports.getIngFormForVerb = getIngFormForVerb;
 exports.modedRandom = modedRandom;
+exports.getId = getId;
+exports.getEnglishId = getEnglishId;
+exports.getMythologyId = getMythologyId;

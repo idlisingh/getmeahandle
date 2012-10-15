@@ -7,18 +7,21 @@ function fastFade() {fadeInTime = 250;fadeOutTime = 350;}
 function slowFade() {fadeInTime = 750;fadeOutTime = 750;}
 
 function getNewId() {
-  try{
-    $('#prevId').removeAttr('disabled');
-    $('#nextId').attr('disabled', 'disabled');
-  }catch (err) { alert(err)}
-  $.get('/id', function(data) {
-      var idObj = JSON.parse(data);
-      generatedIds.push(idObj);
-      index = generatedIds.length - 1 <= 0 ? 0 : generatedIds.length - 1;
-      updateGenIdOnPage(idObj);
-  });
+  $('#prevId').removeAttr('disabled');
+  $('#nextId').attr('disabled', 'disabled');
+  var selectedOption = $('input[@name=group1]:checked').val();
+  try {
+    $.post('/id', 
+        {methodToCall: selectedOption}, 
+        function(data) {
+          var idObj = JSON.parse(data);
+          generatedIds.push(idObj);
+          index = generatedIds.length - 1 <= 0 ? 0 : generatedIds.length - 1;
+          updateGenIdOnPage(idObj);
+      });
+  }catch (err) {alert(err);}
 }
-var i = 0;
+
 function updateGenIdOnPage(idObj) {
   $('#imgId').fadeOut(fadeInTime, function() {
       var imgToUse = 'public/img/' + ((idObj.isAvailable == 'Yes') ? 'yes.png' : 'no.png');
