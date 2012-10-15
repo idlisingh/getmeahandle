@@ -23,6 +23,7 @@ function getNewId() {
 }
 
 function updateGenIdOnPage(idObj) {
+  alert(idObj.id + ' -> ' + idObj.isAvailable);
   $('#imgId').fadeOut(fadeInTime, function() {
       var imgToUse = 'public/img/' + ((idObj.isAvailable == 'Yes') ? 'yes.png' : 'no.png');
       $('#imgId').attr('src', imgToUse);
@@ -73,7 +74,6 @@ function toggleMode() {
 
 $(document).ready(function() {
   isAuto = true;
-  generatedIds.push($('#generatedId').text());
   slowFade();
   autoUpdateId();
 });

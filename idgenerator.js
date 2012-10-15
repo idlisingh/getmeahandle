@@ -103,6 +103,8 @@ function getIdWithIdx(val) {
 //	Exports
 exports.getId = getId;
 exports.getIdWithIdx = getIdWithIdx;
+exports.getEnglishId = getEnglishId;
+exports.getMythologyId = getMythologyId;
 
 //	For Tests
 exports.getNouns = function() { return nouns; }
@@ -112,6 +114,3 @@ exports.getAdverbs = function() { return adverbs; }
 exports.getMythology = function() { return mythology; }
 exports.getIngFormForVerb = getIngFormForVerb;
 exports.modedRandom = modedRandom;
-exports.getId = getId;
-exports.getEnglishId = getEnglishId;
-exports.getMythologyId = getMythologyId;
