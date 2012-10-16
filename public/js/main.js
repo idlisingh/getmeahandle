@@ -2,6 +2,7 @@ var isAuto;
 var fadeInTime, fadeOutTime;
 var generatedIds = [];
 var index = 0;
+var IDS_TO_SAVE_ON_CLIENT = 50;
 
 function fastFade() {fadeInTime = 250;fadeOutTime = 350;}
 function slowFade() {fadeInTime = 750;fadeOutTime = 750;}
@@ -16,6 +17,7 @@ function getNewId() {
         function(data) {
           var idObj = JSON.parse(data);
           generatedIds.push(idObj);
+          if (generatedIds.length > IDS_TO_SAVE_ON_CLIENT) generatedIds.splice(0, 1);
           index = generatedIds.length - 1 <= 0 ? 0 : generatedIds.length - 1;
           updateGenIdOnPage(idObj);
       });
