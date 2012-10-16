@@ -13,18 +13,21 @@ var adjectiveFileName = __dirname + '/data/adjective.dat';
 var adverbFileName = __dirname + '/data/adverb.dat';
 var verbFileName = __dirname + '/data/verb.dat';
 var mythologyFileName = __dirname + '/data/mythology.dat';
+var foodFileName = __dirname + '/data/food.dat';
 
 var nouns = fs.readFileSync(nounFileName, 'ascii').split('\n');
 var adjectives = fs.readFileSync(adjectiveFileName, 'ascii').split('\n');
 var adverbs = fs.readFileSync(adverbFileName, 'ascii').split('\n');
 var verbs = fs.readFileSync(verbFileName, 'ascii').split('\n');
 var mythology = fs.readFileSync(mythologyFileName, 'ascii').split('\n');
+var foods = fs.readFileSync(foodFileName, 'ascii').split('\n');
 
 nouns.splice(nouns.length - 1, 1);
 adjectives.splice(adjectives.length - 1, 1);
 adverbs.splice(adverbs.length - 1, 1);
 verbs.splice(verbs.length - 1, 1);
 mythology.splice(mythology.length - 1, 1);
+foods.splice(mythology.length - 1, 1);
 
 function getVerbing() {
 	return getIngFormForVerb(verbs.generateRandom());
@@ -53,7 +56,7 @@ function endsWith(str, suffix) {
 
 //	Main getId()
 function getId() {
-	return getIdWithIdx(modedRandom(6));
+	return getIdWithIdx(modedRandom(8));
 }
 
 function getEnglishId() {
@@ -62,6 +65,10 @@ function getEnglishId() {
 
 function getMythologyId() {
 	return getIdWithIdx(modedRandom(2) + 4);
+}
+
+function getFoodId() {
+	return getIdWithIdx(modedRandom(2) + 6);
 }
 
 function getIdWithIdx(val) {
@@ -84,6 +91,7 @@ function getIdWithIdx(val) {
 			type = 'Adverb Verbing: ' + val;
 			newId = adverbs.generateRandom() + getVerbing();
 			break;
+		//	Mythology
 		case 4:
 			type = 'Verbing Mythology: ' + val;
 			newId = getVerbing() + mythology.generateRandom();
@@ -91,6 +99,15 @@ function getIdWithIdx(val) {
 		case 5:
 			type = 'Noun of Mythology: ' + val;
 			newId = nouns.generateRandom() + 'Of' + mythology.generateRandom();
+			break;
+		//	Food
+		case 6: 
+			type = 'Food Noun: ' + val;
+			newId = foods.generateRandom() + nouns.generateRandom();
+			break;
+		case 7: 
+			type = 'Verbing Food: ' + val;
+			newId = getVerbing() + foods.generateRandom();
 			break;
 		default:
 			type = 'Unknonwn';
@@ -105,6 +122,7 @@ exports.getId = getId;
 exports.getIdWithIdx = getIdWithIdx;
 exports.getEnglishId = getEnglishId;
 exports.getMythologyId = getMythologyId;
+exports.getFoodId = getFoodId;
 
 //	For Tests
 exports.getNouns = function() { return nouns; }
