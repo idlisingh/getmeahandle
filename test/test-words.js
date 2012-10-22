@@ -6,7 +6,7 @@ exports['getIdWithIdx'] = function (test) {
 	origLog = console.log;
 	console.log = function(data) { log += (data + '\n'); }
 	for(i = 0; i < 10; i++){
-		if (i < 6)
+		if (i < 8)
 			should.exist(idgen.getIdWithIdx(i));
 		else 
 			(function() {idgen.getIdWithIdx(i) }).should.throw();
