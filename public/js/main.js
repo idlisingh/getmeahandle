@@ -52,7 +52,7 @@ function gotoAutoMode() {
   index = 0;
   slowFade();
   autoUpdateId();
-  $('#toggleModeId').html('Auto Mode');
+  $('#toggleModeId').html('Manual Mode');
   $('#prevId').css('visibility', 'hidden');
   $('#nextId').css('visibility', 'hidden');
   $('#getId').css('visibility', 'hidden');
@@ -61,7 +61,7 @@ function gotoAutoMode() {
 function gotoManualMode() {
   fastFade();
   clearInterval(timer);
-  $('#toggleModeId').html('Manual Mode');
+  $('#toggleModeId').html('Auto Mode');
   $('#prevId').css('visibility', 'visible');
   $('#nextId').css('visibility', 'visible');
   $('#getId').css('visibility', 'visible');
