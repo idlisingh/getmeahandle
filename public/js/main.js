@@ -31,7 +31,7 @@ function updateGenIdOnPage(idObj) {
       $('#imgId').fadeIn(fadeOutTime);
     });
   $('#generatedId').fadeOut(fadeInTime, function() {
-    var fontSize = (idObj.id.length > 13) ? '15' : '20';
+    var fontSize = (idObj.id.length > 18) ? '15' : '20';
     var newId = '<font size=\"' + fontSize + '\"><b>';
     newId += (idObj.isAvailable == 'No') 
       ? "<a href=\"http://twitter.com/" + idObj.id + "\" target=\"_blank\">" + idObj.id + "</a>"
