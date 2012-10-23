@@ -31,9 +31,12 @@ function updateGenIdOnPage(idObj) {
       $('#imgId').fadeIn(fadeOutTime);
     });
   $('#generatedId').fadeOut(fadeInTime, function() {
-    var newId = (idObj.isAvailable == 'No') 
+    var fontSize = (idObj.id.length > 13) ? '15' : '20';
+    var newId = '<font size=\"' + fontSize + '\"><b>';
+    newId += (idObj.isAvailable == 'No') 
       ? "<a href=\"http://twitter.com/" + idObj.id + "\" target=\"_blank\">" + idObj.id + "</a>"
       : idObj.id;
+    newId += '</b></font>';
     $('#generatedId').html(newId);
     $('#generatedId').fadeIn(fadeOutTime);
     autoUpdateId();
